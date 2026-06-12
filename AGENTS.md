@@ -5,7 +5,7 @@
 ## 项目概览
 
 - 项目类型：Unity 2D 客户端游戏，Vampire Survivors 类移动/PC 生存射击玩法。
-- Unity 版本：`2022.3.51f1`，见 `ProjectSettings/ProjectVersion.txt`。
+- Unity 版本：`2022.3.62f3c1`，见 `ProjectSettings/ProjectVersion.txt`。
 - 主要代码程序集：默认 `Assembly-CSharp` / `Assembly-CSharp-Editor`，当前没有项目自定义 `.asmdef`。
 - 主要命名空间：大多数运行时代码在 `Vampire` 命名空间下；`SpatialHashGrid`、`ISpatialHashGridClient`、`ScaleToScreen`、`PhysicsConstants`、`MiscTesting` 当前在全局命名空间。新增运行时代码优先使用 `Vampire`，除非是在扩展现有全局类。
 - 输入：使用 Unity Input System 包，`Assets/Input/InputActions.inputactions` 定义 `Player` 与 `UI` action map；`ProjectSettings/ProjectSettings.asset` 中 `activeInputHandler: 2`。
@@ -205,24 +205,12 @@
 
 首选 Unity Editor 验证：
 
-1. 使用 Unity `2022.3.51f1` 打开项目，等待脚本编译无错误。
+1. 使用 Unity `2022.3.62f3c1` 打开项目，等待脚本编译无错误。
 2. 打开 `Assets/Scenes/Game/Main Menu.unity`，Play 后选择角色进入 `Level 1`。
 3. 验证 WASD/方向键/触屏摇杆移动。
 4. 拾取经验触发升级弹窗，选择新技能和升级项。
 5. 验证宝箱、金币、背包道具、暂停、结算弹窗。
 6. 切换语言，确认 UI 和技能文案不缺 key。
-
-可选命令行冒烟测试，按本机 Unity 安装路径调整：
-
-```powershell
-& "C:\Program Files\Unity\Hub\Editor\2022.3.51f1\Editor\Unity.exe" -batchmode -quit -projectPath "C:\Users\lenovo\Downloads\--main\ProjectVAI" -logFile Logs\batchmode-compile.log
-```
-
-如果后续新增了 Unity Test Framework 测试，可用：
-
-```powershell
-& "C:\Program Files\Unity\Hub\Editor\2022.3.51f1\Editor\Unity.exe" -batchmode -quit -projectPath "C:\Users\lenovo\Downloads\--main\ProjectVAI" -runTests -testPlatform PlayMode -testResults Logs\playmode-results.xml -logFile Logs\playmode-tests.log
-```
 
 ## 快速定位表
 

@@ -9,12 +9,13 @@ namespace Vampire
         [SerializeField] private CharacterSelector characterSelector;
         [SerializeField] private Texture2D splashLogo;
         [SerializeField] private float splashFadeInDuration = 0.6f;
-        [SerializeField] private float splashHoldDuration = 1.2f;
+        [SerializeField] private float splashHoldDuration = 5.2f;
         [SerializeField] private float splashFadeOutDuration = 0.6f;
-        [SerializeField] private Vector2 splashLogoMaxSize = new Vector2(640f, 360f);
+        [SerializeField] private Vector2 splashLogoMaxSize = new Vector2(2048f, 1024f);
         [SerializeField] private Color splashBackgroundColor = Color.black;
 
         private CanvasGroup splashCanvasGroup;
+        private RawImage splashLogoImage;
         private GameObject splashRoot;
 
         void Start()
@@ -41,7 +42,7 @@ namespace Vampire
             rootRect.offsetMax = Vector2.zero;
 
             splashCanvasGroup = splashRoot.GetComponent<CanvasGroup>();
-            splashCanvasGroup.alpha = 0f;
+            splashCanvasGroup.alpha = 1f;
             splashCanvasGroup.blocksRaycasts = true;
             splashCanvasGroup.interactable = true;
 
@@ -63,9 +64,9 @@ namespace Vampire
             logoRect.anchoredPosition = Vector2.zero;
             logoRect.sizeDelta = GetLogoSize();
 
-            RawImage logoImage = logo.GetComponent<RawImage>();
-            logoImage.texture = splashLogo;
-            logoImage.color = Color.white;
+            splashLogoImage = logo.GetComponent<RawImage>();
+            splashLogoImage.texture = splashLogo;
+            splashLogoImage.color = new Color(1f, 1f, 1f, 0f);
         }
 
         private Vector2 GetLogoSize()
@@ -94,13 +95,14 @@ namespace Vampire
             Destroy(splashRoot);
             splashRoot = null;
             splashCanvasGroup = null;
+            splashLogoImage = null;
         }
 
         private IEnumerator FadeSplash(float from, float to, float duration)
         {
             if (duration <= 0f)
             {
-                splashCanvasGroup.alpha = to;
+                SetSplashLogoAlpha(to);
                 yield break;
             }
 
@@ -108,11 +110,18 @@ namespace Vampire
             while (elapsed < duration)
             {
                 elapsed += Time.unscaledDeltaTime;
-                splashCanvasGroup.alpha = Mathf.Lerp(from, to, elapsed / duration);
+                SetSplashLogoAlpha(Mathf.Lerp(from, to, elapsed / duration));
                 yield return null;
             }
 
-            splashCanvasGroup.alpha = to;
+            SetSplashLogoAlpha(to);
+        }
+
+        private void SetSplashLogoAlpha(float alpha)
+        {
+            Color color = splashLogoImage.color;
+            color.a = alpha;
+            splashLogoImage.color = color;
         }
     }
 }
